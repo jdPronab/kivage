@@ -1,0 +1,23 @@
+#: import toolpane toolpane
+<ToolButton@Button>:
+    background_color: [0.0, 0.0, 0.0, 1.0]
+    color: [0.0, 1.0, 0.0, 1.0]
+    size_hint: None, None
+    size: 40, 40
+
+<ToolPane>:
+    cols: 3
+    padding: 2
+    ToolButton:
+        text: "+"
+        on_press: root.kivyimage.load_file()
+    ToolButton:
+        text: "+"
+    ToolButton:
+        text: "Save"
+    ToolButton:
+        text: "Save"
+    ToolButton:
+        text: "Save"
+    ToolButton:
+        text: "Save"

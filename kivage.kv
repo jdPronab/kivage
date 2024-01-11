@@ -1,0 +1,41 @@
+<Kivage>:
+    mainpreview: _main_preview
+    AnchorLayout:
+        anchor_x: 'left'
+        anchor_y: 'top'
+        MainPreview:
+            id: _main_preview
+            kivyimage: root
+            size_hint: None, None
+            height: root.height
+            width: root.width - _tool_pane.width
+    
+    AnchorLayout:
+        anchor_x: 'right'
+        anchor_y: 'top'
+        ToolPane:
+            kivyimage: root
+            id: _tool_pane
+            size_hint: None, None
+            height: root.height
+            width: 150
+    
+    
+<LoadDialog>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        FileChooserListView:
+            id: filechooser
+
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                text: "Cancel"
+                on_release: root.cancel()
+
+            Button:
+                text: "Load"
+                on_release: root.load(filechooser.path, filechooser.selection)
