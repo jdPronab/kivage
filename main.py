@@ -1,4 +1,5 @@
 from kivy.app import App
+from kivy.clock import Clock
 from kivy.lang import Builder
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.floatlayout import FloatLayout
@@ -6,9 +7,12 @@ from kivy.uix.popup import Popup
 from kivy.properties import StringProperty, ObjectProperty
 from kivy.core.image import Image as CoreImage
 from kivy.uix.image import Image as KivyImage
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageFilter
 from io import BytesIO
-import os
+import numpy as np
+
+# custom defined
+from image.image import ImagePreview
 
 
 Builder.load_file("mainpreview.kv")
@@ -24,11 +28,20 @@ class Kivage(AnchorLayout):
     im = ObjectProperty()
 
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        self._trigger = Clock.create_trigger(self.update_image)
+        super(Kivage, self).__init__(**kwargs)
         self.image = None
         self.pre_image = None
+        self.test = 0
         self.image_data = BytesIO()
         self.kivy_image = KivyImage()
+        self.bind(on_image=self._trigger)
+        
+
+        # helper
+        self._prevous = None
+        self._current = None
+        self._holder = None
 
     def load_file(self):
         self.show_load()
@@ -45,21 +58,11 @@ class Kivage(AnchorLayout):
     def load(self, path, filename):
         self.file_path = path
         self.file_name = filename[0]
-        self.prepare_img()
-        self.mainpreview.add_widget(self.kivy_image)
+        im_widget = ImagePreview() 
+        im_widget.load_image(filename[0])
+        self.mainpreview.add_widget(im_widget)
         self.dismiss_popup()
 
-    def prepare_img(self):
-        if self.file_name != '':
-            self.pre_image = Image.open(self.file_name)
-            self.image = self.pre_image
-            self.update_image()
-            
-    def update_image(self):
-        self.image.save(self.image_data, format='png')
-        self.image_data.seek(0)
-        self.image = CoreImage(BytesIO(self.image_data.read()), ext='png')
-        self.kivy_image.texture = self.image.texture
 
 class KivageApp(App):
     def build(self):
