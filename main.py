@@ -23,25 +23,6 @@ class LoadDialog(FloatLayout):
     cancel = ObjectProperty(None)
 
 class Kivage(AnchorLayout):
-    file_path = StringProperty('')
-    file_name = StringProperty('')
-    im = ObjectProperty()
-
-    def __init__(self, **kwargs):
-        self._trigger = Clock.create_trigger(self.update_image)
-        super(Kivage, self).__init__(**kwargs)
-        self.image = None
-        self.pre_image = None
-        self.test = 0
-        self.image_data = BytesIO()
-        self.kivy_image = KivyImage()
-        self.bind(on_image=self._trigger)
-        
-
-        # helper
-        self._prevous = None
-        self._current = None
-        self._holder = None
 
     def load_file(self):
         self.show_load()
@@ -56,10 +37,10 @@ class Kivage(AnchorLayout):
         self._popup.open()
     
     def load(self, path, filename):
-        self.file_path = path
-        self.file_name = filename[0]
         im_widget = ImagePreview() 
         im_widget.load_image(filename[0])
+        if self.mainpreview.children:
+            self.mainpreview.clear_widgets()
         self.mainpreview.add_widget(im_widget)
         self.dismiss_popup()
 
