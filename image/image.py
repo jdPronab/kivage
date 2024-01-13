@@ -24,16 +24,16 @@ class ImagePreview(KivyImage):
         self.current_image = self.pilimage_to_coreimage(loaded_image)
 
     def coreimage_to_pilimage(self):
-        pil_image = PILImage.frombytes("RGB",
+        pil_image = PILImage.frombytes("RGBA",
                            self._coreimage.texture.size,
                            self._coreimage.texture.pixels)
         return pil_image
     
     def pilimage_to_coreimage(self, image):
         image_bytes = BytesIO()
-        image.save(image_bytes, 'jpeg')
+        image.save(image_bytes, 'png')
         image_bytes.seek(0)
-        return CoreImage(BytesIO(image_bytes.read()), ext='jpg')
+        return CoreImage(BytesIO(image_bytes.read()), ext='png')
 
     def blur(self):
         if self._coreimage:
