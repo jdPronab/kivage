@@ -1,24 +1,36 @@
 #: import toolpane toolpane
+#: import settings settings
+
 <ToolButton@Button>:
-    background_color: [0.0, 0.0, 0.0, 1.0]
-    color: [0.0, 1.0, 0.0, 1.0]
+    canvas:
+        Color:
+            rgba: settings.Primary['green']
+        Line:
+            rectangle: (self.pos[0], self.pos[1], self.width, self.height)
+            width: 1
+
+    background_color:  settings.Primary['background_color']
+    color: settings.Primary['text_color']
     size_hint: None, None
-    size: 40, 40
+
+<ToolpaneButton@ToolButton>:
+    size: 40, 30
 
 <ToolPane>:
     cols: 3
     padding: 2
-    ToolButton:
+    spacing: 7.777
+    ToolpaneButton:
         text: "+"
         on_press: root.kivyimage.load_file()
-    ToolButton:
+    ToolpaneButton:
         text: "Blur"
         on_press: root.mainpreview.children[0].blur()
-    ToolButton:
+    ToolpaneButton:
         text: "Save"
-    ToolButton:
+    ToolpaneButton:
         text: "Save"
-    ToolButton:
+    ToolpaneButton:
         text: "Save"
-    ToolButton:
+    ToolpaneButton:
         text: "Save"

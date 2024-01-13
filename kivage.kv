@@ -1,3 +1,5 @@
+#: import settings settings
+
 <Kivage>:
     mainpreview: _main_preview
     AnchorLayout:
@@ -21,22 +23,33 @@
             height: root.height
             width: 150
     
-    
+<LoadBialogButton@ToolButton>:
+    size: 50, 30
+
 <LoadDialog>:
     BoxLayout:
         size: root.size
         pos: root.pos
         orientation: "vertical"
+        background_color: settings.Primary['green']
         FileChooserListView:
             id: filechooser
+            rootpath: '/home/'
+            filters: ['*.png', '*.jpg', '*.jpeg']
+            #color: settings.Primary['text_color']
+            #background_color: settings.Primary['green']
 
-        BoxLayout:
+        StackLayout:
+            orientation: 'rl-tb'
             size_hint_y: None
             height: 30
-            Button:
-                text: "Cancel"
-                on_release: root.cancel()
+            padding: 10
+            spacing: 20
 
-            Button:
+            LoadBialogButton:
                 text: "Load"
                 on_release: root.load(filechooser.path, filechooser.selection)
+            
+            LoadBialogButton:
+                text: "Cancel"
+                on_release: root.cancel()

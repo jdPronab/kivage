@@ -12,11 +12,13 @@ from io import BytesIO
 import numpy as np
 
 # custom defined
+from settings import Primary
 from image.image import ImagePreview
 
 
 Builder.load_file("mainpreview.kv")
 Builder.load_file("toolpane.kv")
+Builder.load_file("style/filechooser.kv")
 
 class LoadDialog(FloatLayout):
     load = ObjectProperty(None)
@@ -32,8 +34,13 @@ class Kivage(AnchorLayout):
 
     def show_load(self):
         content = LoadDialog(load=self.load, cancel=self.dismiss_popup)
-        self._popup = Popup(title="Load file", content=content,
-                            size_hint=(0.9, 0.9))
+        self._popup = Popup(title="Load file",
+                            title_align='center',
+                            title_color=Primary["text_color"],
+                            content=content,
+                            size_hint=(0.9, 0.9),
+                            background_color=Primary["background_color"],
+                            )
         self._popup.open()
     
     def load(self, path, filename):

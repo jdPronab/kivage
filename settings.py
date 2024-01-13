@@ -4,4 +4,5 @@ Primary = {
     "text_color" :  [0.0, 1.0, 0.0, 1.0],
     "border_color" :  [0.8, 0.8, 0.8, 1.0],
     "border_radius" : 10,
+    "green" :  [0.0, 1.0, 0.0, 1.0],
 }
