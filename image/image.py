@@ -11,7 +11,7 @@ import numpy as np
 class ImagePreview(KivyImage):
     current_image = ObjectProperty(None)
     fit_mode = StringProperty('contain')
-    
+    original_image = ObjectProperty(None)
     def on_current_image(self, *_):
         self.texture_update()
 
@@ -20,8 +20,8 @@ class ImagePreview(KivyImage):
         self._on_tex_change()
     
     def load_image(self, filename):
-        loaded_image = PILImage.open(filename)
-        self.current_image = self.pilimage_to_coreimage(loaded_image)
+        self.original_image = PILImage.open(filename)
+        self.current_image = self.pilimage_to_coreimage(self.original_image)
 
     def coreimage_to_pilimage(self):
         pil_image = PILImage.frombytes("RGBA",
@@ -35,13 +35,19 @@ class ImagePreview(KivyImage):
         image_bytes.seek(0)
         return CoreImage(BytesIO(image_bytes.read()), ext='png')
 
-    def blur(self):
-        if self._coreimage:
-            original_image = self.coreimage_to_pilimage()
-            original_image.thumbnail(size=(500, 500))  #Resize image to make blur uniform and quicker
-            blur_image = original_image.filter(filter=ImageFilter.GaussianBlur(4))
-            self.current_image =  self.pilimage_to_coreimage(blur_image)
-
+    def blur(self, image, value):
+        return image.filter(filter=ImageFilter.GaussianBlur(value))
+    
+    def update(self, tasks):
+        # Update the image appying all the filter
+        print("Calling update")
+        print(tasks)
+        modifyable_image = self.original_image
+        for key, value in tasks.items():
+            func = getattr(self, str(key).lower())
+            print(func)
+            modifyable_image = func(modifyable_image, value)
+        self.current_image = self.pilimage_to_coreimage(modifyable_image)
 
 
 if __name__ == "__main__":
