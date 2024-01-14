@@ -40,6 +40,7 @@ class Kivage(AnchorLayout):
                             content=content,
                             size_hint=(0.9, 0.9),
                             background_color=Primary["background_color"],
+                            separator_color=Primary['green']
                             )
         self._popup.open()
     

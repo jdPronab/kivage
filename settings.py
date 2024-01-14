@@ -5,4 +5,5 @@ Primary = {
     "border_color" :  [0.8, 0.8, 0.8, 1.0],
     "border_radius" : 10,
     "green" :  [0.0, 1.0, 0.0, 1.0],
+    "light" :  [1.0, 1.0, 1.0, 1.0],
 }

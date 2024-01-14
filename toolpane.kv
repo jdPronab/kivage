@@ -16,21 +16,105 @@
 <ToolpaneButton@ToolButton>:
     size: 40, 30
 
+
+<Pane@GridLayout>:
+    canvas:
+        Color:
+            rgba: settings.Primary['green']
+        Line:
+            rectangle: (self.pos[0], self.pos[1], self.width, self.height)
+            width: 1
+
+<SlideController>:
+    canvas:
+        Color:
+            rgba: settings.Primary['green']
+        Line:
+            rectangle: (self.pos[0], self.pos[1], self.width, self.height)
+            width: 1
+    orientation: 'vertical'
+    size_hint: None, None
+    value: _slider.value
+    Label:
+        id: _label
+        text: root.name
+        size_hint: None, 1
+        size: root.width, self.height
+        text_size: self.size
+        halign: 'left'
+    BoxLayout:
+        id: _lower_part
+        size_hint: None, 1
+        width: root.width
+        Label:
+            id: _indicator
+            text: str(int(_slider.value))
+            color: settings.Primary['green']
+            size_hint: None, 1
+            size: 20, 20
+        Slider:
+            id: _slider
+            min: root.min
+            max: root.max
+            step: root.step
+            size_hint: None, 1
+            size: root.width - _indicator.width , 5
+            value_track: True
+            value_track_color: settings.Primary['green']
+        
+
+
 <ToolPane>:
-    cols: 3
-    padding: 2
-    spacing: 7.777
-    ToolpaneButton:
-        text: "+"
-        on_press: root.kivyimage.load_file()
-    ToolpaneButton:
-        text: "Blur"
-        on_press: root.mainpreview.children[0].blur()
-    ToolpaneButton:
-        text: "Save"
-    ToolpaneButton:
-        text: "Save"
-    ToolpaneButton:
-        text: "Save"
-    ToolpaneButton:
-        text: "Save"
+    orientation: 'vertical'
+    blur_value: _blur.value
+    controller: _controller
+    Pane:
+        cols: 3
+        padding: 2
+        spacing: 7.777
+        size_hint: None, None
+        size: root.width, 170
+        ToolpaneButton:
+            text: "+"
+            on_press: root.kivyimage.load_file()
+        ToolpaneButton:
+            text: "Blur"
+            # on_press: root.mainpreview.children[0].blur()
+        ToolpaneButton:
+            text: "Save"
+        ToolpaneButton:
+            text: "Save"
+        ToolpaneButton:
+            text: "Save"
+        ToolpaneButton:
+            text: "Save"
+    Pane:
+        id: _controller
+        cols: 1
+        spacing: 10
+        SlideController:
+            id: _blur
+            name: "Blur"
+            min: 0
+            max: 100
+            step: 1
+            size_hint: None, None
+            size: self.parent.width, 40
+        SlideController:
+            name: "Contrast"
+            min: 0
+            max: 100
+            step: 1
+            size_hint: None, None
+            size: self.parent.width, 40
+        SlideController:
+            name: "Brightness"
+            min: 0
+            max: 100
+            step: 1
+            size_hint: None, None
+            size: self.parent.width, 40
+            on_value: root.blur_value = self.value
+
+            
+            
