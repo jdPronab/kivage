@@ -1,5 +1,5 @@
 from typing import Any
-from PIL import Image as PILImage, ImageFilter
+from PIL import Image as PILImage, ImageFilter, ImageEnhance
 from kivy.core.image import Image as CoreImage
 from kivy.uix.image import Image as KivyImage
 from kivy.properties import ObjectProperty, StringProperty
@@ -37,15 +37,21 @@ class ImagePreview(KivyImage):
 
     def blur(self, image, value):
         return image.filter(filter=ImageFilter.GaussianBlur(value))
+
+    def brightness(self, image, value):
+        enhancer = ImageEnhance.Brightness(image)
+        return enhancer.enhance(value)
+
+    def contrast(self, image, value):
+        enhancer = ImageEnhance.Contrast(image)
+        return enhancer.enhance(value)
+
     
     def update(self, tasks):
         # Update the image appying all the filter
-        print("Calling update")
-        print(tasks)
         modifyable_image = self.original_image
         for key, value in tasks.items():
             func = getattr(self, str(key).lower())
-            print(func)
             modifyable_image = func(modifyable_image, value)
         self.current_image = self.pilimage_to_coreimage(modifyable_image)
 

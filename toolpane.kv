@@ -67,6 +67,8 @@
 <ToolPane>:
     orientation: 'vertical'
     blur_value: _blur.value
+    brightness_value: _brightness.value
+    contrast_value: _contrast.value
     controller: _controller
     Pane:
         cols: 3
@@ -101,6 +103,7 @@
             size_hint: None, None
             size: self.parent.width, 40
         SlideController:
+            id: _contrast
             name: "Contrast"
             min: 0
             max: 100
@@ -108,6 +111,7 @@
             size_hint: None, None
             size: self.parent.width, 40
         SlideController:
+            id: _brightness
             name: "Brightness"
             min: 0
             max: 100
