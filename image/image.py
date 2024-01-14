@@ -45,16 +45,24 @@ class ImagePreview(KivyImage):
     def contrast(self, image, value):
         enhancer = ImageEnhance.Contrast(image)
         return enhancer.enhance(value)
-
     
     def update(self, tasks):
         # Update the image appying all the filter
+        TASKS = {
+            'blur': self.blur,
+            'brightness': self.brightness,
+            'contrast': self.contrast
+        }
         modifyable_image = self.original_image
-        for key, value in tasks.items():
-            func = getattr(self, str(key).lower())
-            modifyable_image = func(modifyable_image, value)
+        for task, value in tasks.items():
+            task = task.lower()
+            if task in TASKS:
+                modifyable_image = TASKS[task](modifyable_image, value)
+        self.current_PIL_image = modifyable_image
         self.current_image = self.pilimage_to_coreimage(modifyable_image)
 
+    def save(self, filename, fmt):
+        self.current_PIL_image.save(filename, format=fmt)
 
 if __name__ == "__main__":
     image = PILImage.open("./assets/mina.jpeg")

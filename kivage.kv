@@ -51,3 +51,30 @@
             LoadBialogButton:
                 text: "Cancel"
                 on_release: root.cancel()
+
+<SaveDialog>:
+    text_input: _text_input
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        FileChooserListView:
+            id: filechooser
+            on_selection: _text_input.text = self.selection and self.selection[0] or ''
+
+        TextInput:
+            id: _text_input
+            size_hint_y: None
+            height: 30
+            multiline: False
+
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                text: "Cancel"
+                on_release: root.cancel()
+
+            Button:
+                text: "Save"
+                on_release: root.save(filechooser.path, _text_input.text)

@@ -80,16 +80,8 @@
             text: "+"
             on_press: root.kivyimage.load_file()
         ToolpaneButton:
-            text: "Blur"
-            # on_press: root.mainpreview.children[0].blur()
-        ToolpaneButton:
             text: "Save"
-        ToolpaneButton:
-            text: "Save"
-        ToolpaneButton:
-            text: "Save"
-        ToolpaneButton:
-            text: "Save"
+            on_press: root.kivyimage.show_save()
     Pane:
         id: _controller
         cols: 1
