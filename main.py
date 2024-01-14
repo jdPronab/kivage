@@ -52,8 +52,14 @@ class Kivage(AnchorLayout):
     
     def show_save(self):
         content = SaveDialog(save=self.save, cancel=self.dismiss_popup)
-        self._popup = Popup(title="Save file", content=content,
-                            size_hint=(0.9, 0.9))
+        self._popup = Popup(title="Save file", 
+                            title_align='center',
+                            title_color=Primary["text_color"],
+                            content=content,
+                            size_hint=(0.9, 0.9),
+                            background_color=Primary["background_color"],
+                            separator_color=Primary['green']
+                            )
         self._popup.open()
     
     def load(self, path, filename):

@@ -60,21 +60,38 @@
         orientation: "vertical"
         FileChooserListView:
             id: filechooser
-            on_selection: _text_input.text = self.selection and self.selection[0] or ''
+            on_selection: _text_input.text = self.selection and self.selection[0] or 'untitled.png'
 
         TextInput:
+            canvas.after:
+                Color:
+                    rgba: settings.Primary['green']
+                Line:
+                    rectangle: (self.pos[0], self.pos[1], self.width, self.height)
+                    width: 1
+
             id: _text_input
+            text: 'untitled.png'
             size_hint_y: None
             height: 30
             multiline: False
+            background_color: settings.Primary['background_color']
+            hint_text_color: settings.Primary['text_color']
+            foreground_color: settings.Primary['text_color']
+            cursor_color: settings.Primary['green']
 
-        BoxLayout:
+
+        StackLayout:
+            orientation: 'rl-tb'
             size_hint_y: None
             height: 30
-            Button:
-                text: "Cancel"
-                on_release: root.cancel()
+            padding: 10
+            spacing: 20
 
-            Button:
+            LoadBialogButton:
                 text: "Save"
                 on_release: root.save(filechooser.path, _text_input.text)
+            
+            LoadBialogButton:
+                text: "Cancel"
+                on_release: root.cancel()
